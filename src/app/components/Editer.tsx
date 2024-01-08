@@ -3,23 +3,27 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Cookies from "js-cookie";
+import { Article } from "@/types";
 
-export default function CreateArticle() {
+export default function Editer(props: {article: Article}) {
+  const article = props.article;
+  
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(article.title);
+  const [description, setDescription] = useState(article.description);
+  const [body, setBody] = useState(article.body);
   const [tagName, setTagName] = useState("");
-  const [tagList, settagList] = useState<string[]>([]);
+  const [tagList, settagList] = useState<string[]>(article.tagList);
   const [errors, setErrors] = useState<[string, []][] | null>(null);
 
   const hundletagList = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
     if (e.key === 'Enter' && tagName.trim() !== '') {
+      e.preventDefault();
       settagList((prevtagList: string[]) => [...prevtagList, tagName.trim()])
       setTagName("")
     }
   }
+
   const deleteTag = (index: number) => {
     settagList((prevtagList) => prevtagList.filter((_, i) => i !== index));
   }
@@ -27,8 +31,8 @@ export default function CreateArticle() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/api/articles', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3001/api/articles/${article.slug}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${Cookies.get('token')}`
@@ -48,6 +52,7 @@ export default function CreateArticle() {
       console.error('Error:', error);
     }
   }
+  console.log(title, description, body, tagName)
   return (
     <div className="editor-page">
       <div className="container page">
@@ -67,10 +72,10 @@ export default function CreateArticle() {
             <form onSubmit={onSubmit}>
               <fieldset>
                 <fieldset className="form-group">
-                  <input type="text" className="form-control form-control-lg" placeholder="Article Title" onChange={(e) => setTitle(e.target.value)} />
+                  <input type="text" className="form-control form-control-lg" placeholder="Article Title" onChange={(e) => setTitle(e.target.value)} value={title}/>
                 </fieldset>
                 <fieldset className="form-group">
-                  <input type="text" className="form-control" placeholder="What's this article about?" onChange={(e) => setDescription(e.target.value)} />
+                  <input type="text" className="form-control" placeholder="What's this article about?" onChange={(e) => setDescription(e.target.value)} value={description}/>
                 </fieldset>
                 <fieldset className="form-group">
                   <textarea
@@ -78,12 +83,15 @@ export default function CreateArticle() {
                     rows={8}
                     placeholder="Write your article (in markdown)"
                     onChange={(e) => setBody(e.target.value)} 
+                    value={body}
                   ></textarea>
                 </fieldset>
                 <fieldset className="form-group">
                   <input type="text" className="form-control" placeholder="Enter tagList" 
+                  onChange={(e) => setTagName(e.target.value)} 
                   value={tagName}
-                  onChange={(e) => setTagName(e.target.value)} onKeyDown={hundletagList} />
+                  onKeyDown={hundletagList}
+                  />
 
                   <div className="tag-list">
                     {tagList.map((tag, i) => (
