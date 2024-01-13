@@ -6,9 +6,10 @@ import React, { useEffect, useState } from 'react'
 import Paginate from './paginate';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
+import { getArticles } from '@/articleAPI';
 
 const ArticleList = () => {
-  const [articles, setArticles] = useState<Articles>();
+  // const [articles, setArticles] = useState<Articles>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const perPage = 10
 
@@ -16,22 +17,26 @@ const ArticleList = () => {
     setCurrentPage(() => selectedPage)
   }
 
-  useEffect(() => {
-    const getArticles = async () => {
-      const data = await fetch("http://localhost:3001/api/articles", { cache: "no-store" });
-      if (!data.ok) {
-        throw new Error("failed to get articles")
-      }
-      const articles: Articles = await data.json();
-      setArticles(articles)
-    }
-    getArticles();
-  }, [])
-  console.log(articles)
-  return (
-    <>
-      {!articles ? "Loading" :
-        articles.articles.slice(currentPage * perPage, currentPage * perPage + perPage).map((article: Article) => (
+  // useEffect(() => {
+  //   const getArticles = async () => {
+  //     const data = await fetch("http://localhost:3001/api/articles", { cache: "no-store" });
+  //     if (!data.ok) {
+  //       throw new Error("failed to get articles")
+  //     }
+  //     const articles: Articles = await data.json();
+  //     setArticles(articles)
+  //   }
+  //   getArticles();
+  // }, [])
+  const {articles, isLoading, isError} = getArticles(currentPage, perPage)
+  
+  if (isError) return <div>Load is Failed</div>
+  if (isLoading) return <div>Loading...</div>
+  if (articles) {
+
+    return (
+      <>
+        {articles.articles.map((article: Article) => (
           <div className="article-preview" key={article.slug}>
             <div className="article-meta">
               <a href="/profile/eric-simons"><Image src={article.user.image} alt="" width={100} height={100}/></a>
@@ -55,9 +60,10 @@ const ArticleList = () => {
           </div>
         ))
       }
-      <Paginate perPage = {perPage} pageCount = {articles?.article_count} currentPage = {currentPage} hundleCurrentPage = {hundleCurrentPage} />
-    </>
-  )
+        <Paginate perPage = {perPage} pageCount = {articles.article_count} currentPage = {currentPage} hundleCurrentPage = {hundleCurrentPage} />
+      </>
+    )
+  }
 }
 
 export default ArticleList

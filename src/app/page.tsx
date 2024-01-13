@@ -2,6 +2,7 @@
 
 import ArticleList from './components/ArticleList';
 import Cookies from 'js-cookie';
+import TagList from './components/TagList';
 
 export default function Home() {
   return (
@@ -34,8 +35,7 @@ export default function Home() {
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
-
-              <div className="tag-list">
+              {/* <div className="tag-list">
                 <a href="" className="tag-pill tag-default">programming</a>
                 <a href="" className="tag-pill tag-default">javascript</a>
                 <a href="" className="tag-pill tag-default">emberjs</a>
@@ -44,7 +44,8 @@ export default function Home() {
                 <a href="" className="tag-pill tag-default">mean</a>
                 <a href="" className="tag-pill tag-default">node</a>
                 <a href="" className="tag-pill tag-default">rails</a>
-              </div>
+              </div> */}
+              <TagList />
             </div>
           </div>
         </div>
