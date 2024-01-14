@@ -13,9 +13,12 @@ export default function Register() {
     linkText="Have an account?"
     action={registerAction}
     inputs={[
-    <FormInput type="text" placeholder="Username" name= "username" />,
-    <FormInput type="text" placeholder="Email" name= "email" />,
-    <FormInput type="password" placeholder="Password" name= "password" />
+
+    <FormInput key={0} type="text" placeholder="Username" name= "username" />,
+
+    <FormInput key={1} type="text" placeholder="Email" name= "email" />,
+
+    <FormInput key={2} type="password" placeholder="Password" name= "password" />
     ]}
     buttonText="Sign up"
     />
