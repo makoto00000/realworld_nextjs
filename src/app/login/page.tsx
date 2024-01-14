@@ -13,8 +13,8 @@ export default function Login() {
     linkText="Need an account?"
     action={loginAction}
     inputs={[
-    <FormInput type="text" placeholder="Email" name= "email" />,
-    <FormInput type="password" placeholder="Password" name= "password" />
+    <FormInput key={0} type="text" placeholder="Email" name= "email" />,
+    <FormInput key={1} type="password" placeholder="Password" name= "password" />
     ]}
     buttonText="Sign in" />
   )
