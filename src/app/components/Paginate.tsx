@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 export default function Paginate(props: {perPage: number, pageCount: number, currentPage: number, hundleCurrentPage: (selectedPage: number) => void}) {
 
@@ -23,3 +23,4 @@ export default function Paginate(props: {perPage: number, pageCount: number, cur
     </ul>
   )
 }
+
