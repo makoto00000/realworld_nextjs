@@ -35,3 +35,13 @@ export type User = {
   createdAt: string,
   updatedAt: string,
 }
+
+export type Tags = {
+  tagList: string[]
+}
+
+export type Errors = {
+  errors: {
+    body: [string, string[]][]
+  }
+}

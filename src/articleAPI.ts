@@ -1,12 +1,24 @@
-import { Article, Articles } from "./types";
+import useSWR from "swr";
+import { Article, Articles, Tags } from "./types";
 
-export async function getArticles():Promise<Articles> {
-  const data = await fetch("http://localhost:3001/api/articles", { cache: "no-store" });
-  if (!data.ok) {
-    throw new Error("failed to get articles")
+async function tagsFetcher(key: string) {
+  return fetch(key).then((res) => res.json() as Promise<Tags | null>);
+}
+
+async function articlesFetcher(key: string) {
+  return fetch(key).then((res) => res.json() as Promise<Articles | null>);
+}
+
+export const GetArticles = (offset: number, limit: number) => {
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:3001/api/articles?offset=${offset}&limit=${limit}`,
+    articlesFetcher
+  );
+  return {
+    articles: data,
+    isLoading,
+    isError: error,
   }
-  const articles: Articles = await data.json();
-  return articles;
 }
 
 export async function getDetailArticle(slug: string):Promise<Article> {
@@ -18,3 +30,14 @@ export async function getDetailArticle(slug: string):Promise<Article> {
   return article.article;
 }
 
+export const GetTags = () => {
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:3001/api/tags",
+    tagsFetcher
+  );
+  return {
+    tags: data,
+    isLoading,
+    isError: error,
+  }
+}
