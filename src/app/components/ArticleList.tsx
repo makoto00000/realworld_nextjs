@@ -2,32 +2,36 @@
 
 import { Article, Articles } from '@/types';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Paginate from './Paginate';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
-import { GetArticles } from '@/articleAPI';
+import useSWR from 'swr';
 
-const ArticleList = () => {
-  // const [articles, setArticles] = useState<Articles>();
+export default function ArticleList() {
+  
+  async function articlesFetcher(key: string) {
+    return fetch(key).then((res) => res.json() as Promise<Articles | null>);
+  }
+  
+  const GetArticles = (offset: number, limit: number) => {
+    const { data, error, isLoading } = useSWR(
+      `http://localhost:3001/api/articles?offset=${offset}&limit=${limit}`,
+      articlesFetcher
+    );
+    return {
+      articles: data,
+      isLoading,
+      isError: error,
+    }
+  }
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const perPage = 10
-
   const hundleCurrentPage = (selectedPage: number) => {
     setCurrentPage(() => selectedPage)
   }
 
-  // useEffect(() => {
-  //   const getArticles = async () => {
-  //     const data = await fetch("http://localhost:3001/api/articles", { cache: "no-store" });
-  //     if (!data.ok) {
-  //       throw new Error("failed to get articles")
-  //     }
-  //     const articles: Articles = await data.json();
-  //     setArticles(articles)
-  //   }
-  //   getArticles();
-  // }, [])
   const {articles, isLoading, isError} = GetArticles(currentPage, perPage)
   
   if (isError) return <div>Load is Failed</div>
@@ -65,5 +69,3 @@ const ArticleList = () => {
     )
   }
 }
-
-export default ArticleList
