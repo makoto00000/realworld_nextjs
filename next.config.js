@@ -2,7 +2,8 @@
 const nextConfig = {
   images: {
     domains: ['i.imgur.com','loremflickr.com'],
-},
+  },
+  productionBrowserSourceMaps: true,
 }
 
 module.exports = nextConfig
