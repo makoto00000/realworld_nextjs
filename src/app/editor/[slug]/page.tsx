@@ -1,6 +1,6 @@
 import Editer from "@/app/components/Editer"
 import { getDetailArticle } from "@/articleAPI"
-import { Suspense } from 'react'
+
 export default async function EditArticle({ params }: { params: {slug: string } }) {
 
   const article = await getDetailArticle(params.slug);

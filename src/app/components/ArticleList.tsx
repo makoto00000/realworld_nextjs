@@ -3,10 +3,10 @@
 import { Article, Articles } from '@/types';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import Paginate from './paginate';
+import Paginate from './Paginate';
 import Link from 'next/link';
 import { formatDate } from '../utils/formatDate';
-import { getArticles } from '@/articleAPI';
+import { GetArticles } from '@/articleAPI';
 
 const ArticleList = () => {
   // const [articles, setArticles] = useState<Articles>();
@@ -28,7 +28,7 @@ const ArticleList = () => {
   //   }
   //   getArticles();
   // }, [])
-  const {articles, isLoading, isError} = getArticles(currentPage, perPage)
+  const {articles, isLoading, isError} = GetArticles(currentPage, perPage)
   
   if (isError) return <div>Load is Failed</div>
   if (isLoading) return <div>Loading...</div>

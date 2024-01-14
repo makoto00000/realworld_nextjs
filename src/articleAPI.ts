@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Articles, Tags } from "./types";
+import { Article, Articles, Tags } from "./types";
 
 async function tagsFetcher(key: string) {
   return fetch(key).then((res) => res.json() as Promise<Tags | null>);
@@ -9,7 +9,7 @@ async function articlesFetcher(key: string) {
   return fetch(key).then((res) => res.json() as Promise<Articles | null>);
 }
 
-export const getArticles = (offset: number, limit: number) => {
+export const GetArticles = (offset: number, limit: number) => {
   const { data, error, isLoading } = useSWR(
     `http://localhost:3001/api/articles?offset=${offset}&limit=${limit}`,
     articlesFetcher
@@ -21,7 +21,7 @@ export const getArticles = (offset: number, limit: number) => {
   }
 }
 
-export async function getDetailArticle(slug: string):Promise<Articles> {
+export async function getDetailArticle(slug: string):Promise<Article> {
   const data = await fetch(`http://localhost:3001/api/articles/${slug}`, { cache: "no-store" });
   if (!data.ok) {
     throw new Error("failed to get article")
@@ -30,7 +30,7 @@ export async function getDetailArticle(slug: string):Promise<Articles> {
   return article.article;
 }
 
-export const getTags = () => {
+export const GetTags = () => {
   const { data, error, isLoading } = useSWR(
     "http://localhost:3001/api/tags",
     tagsFetcher
