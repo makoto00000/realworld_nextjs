@@ -6,7 +6,7 @@ export const getCookie = (name: string) => {
   return cookie?.value;
 }
 
-export const setCookie = async (name: string, value: string) => {
+export const setCookie = (name: string, value: string) => {
   cookies().set({
     name: name,
     value: value,
@@ -16,6 +16,8 @@ export const setCookie = async (name: string, value: string) => {
   })
 }
 
-export const deleteCookie = async (name: string) => {
+export const deleteCookie = (name: string) => {
   cookies().delete(name)
 }
+
+// module.exports = {getCookie}
