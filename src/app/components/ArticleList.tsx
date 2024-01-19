@@ -21,8 +21,8 @@ export default function ArticleList() {
     );
     return {
       articles: data,
-      isLoading,
       isError: error,
+      isLoading,
     }
   }
 
@@ -32,7 +32,7 @@ export default function ArticleList() {
     setCurrentPage(() => selectedPage)
   }
 
-  const {articles, isLoading, isError} = GetArticles(currentPage, perPage)
+  const {articles, isError, isLoading} = GetArticles(currentPage, perPage)
   
   if (isError) return <div>Load is Failed</div>
   if (isLoading) return <div>Loading...</div>
