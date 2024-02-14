@@ -1,18 +1,27 @@
-
 import { useFormState } from "react-dom";
-import { ActionState, loginAction } from "../utils/actions";
+import { UserActionState } from "../utils/userActions";
 import FormErrors from "./formComponents/FormErrors";
 
 type AuthFormProps = {
-  title: string,
-  link: string,
-  linkText: string,
-  action: (prevState: ActionState, formData: FormData) => Promise<ActionState>
-  inputs: JSX.Element[],
-  buttonText: string,
+  title: string;
+  link: string;
+  linkText: string;
+  action: (
+    prevState: UserActionState,
+    formData: FormData
+  ) => Promise<UserActionState>;
+  inputs: JSX.Element[];
+  buttonText: string;
 };
 
-export default function AuthForm({title, link, linkText, action, inputs, buttonText}: AuthFormProps) {
+export default function AuthForm({
+  title,
+  link,
+  linkText,
+  action,
+  inputs,
+  buttonText,
+}: AuthFormProps) {
   const [formState, formAction] = useFormState(action, {
     errors: null,
     user: null,
@@ -31,7 +40,7 @@ export default function AuthForm({title, link, linkText, action, inputs, buttonT
             {formState.errors ? <FormErrors {...formState.errors} /> : ""}
 
             <form action={formAction}>
-              {inputs.map((input) => (input))}
+              {inputs.map((input) => input)}
               <button className="btn btn-lg btn-primary pull-xs-right">
                 {buttonText}
               </button>

@@ -8,7 +8,6 @@ import { getCurrentUser } from "@/userAPI";
 export default async function Header() {
 
   const current_user = await getCurrentUser();
-  
   return (
     <nav className="navbar navbar-light">
       <div className="container">

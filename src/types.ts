@@ -9,6 +9,7 @@ export type Article = {
   description: string, 
   body: string, 
   tagList: string[],
+  tags: [{name: string}],
   createdAt: string, 
   updatedAt: string,
   created_at: string, 
