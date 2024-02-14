@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
-import { submitUser } from "../utils/actions";
-import { logout } from "../utils/actions";
+import { submitUser } from "../utils/userActions";
+import { logout } from "../utils/userActions";
 import FormErrors from "./formComponents/FormErrors";
 
 const initialState = {
