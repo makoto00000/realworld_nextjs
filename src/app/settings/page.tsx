@@ -1,7 +1,7 @@
-import React from 'react'
-import SettingForm from '../components/SettingForm';
-import { getCurrentUser } from '@/userAPI';
-import { redirect } from 'next/navigation';
+import React from "react";
+import SettingForm from "../components/SettingForm";
+import { getCurrentUser } from "@/userAPI";
+import { redirect } from "next/navigation";
 
 export default async function Settings() {
   const user = await getCurrentUser();
@@ -10,10 +10,10 @@ export default async function Settings() {
     defaultUserName: "",
     defaultBio: "",
     defaultEmail: "",
-  }
+  };
   if (user) {
     if (user.bio === null) {
-      user.bio = ""
+      user.bio = "";
     }
 
     settingFormProps = {
@@ -21,11 +21,10 @@ export default async function Settings() {
       defaultUserName: user.username,
       defaultBio: user.bio,
       defaultEmail: user.email,
-    }
+    };
   } else {
-    redirect("/login")
+    redirect("/login");
   }
-
 
   return (
     <div className="settings-page">
@@ -33,5 +32,5 @@ export default async function Settings() {
         <SettingForm {...settingFormProps} />
       </div>
     </div>
-  )
+  );
 }
