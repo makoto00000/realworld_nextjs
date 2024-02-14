@@ -64,11 +64,11 @@ export default function ArticleList() {
               <p>{article.description}</p>
               <span>Read more...</span>
               <ul className="tag-list">
-                {article.tags.map((tag, index) => (
+                {/* {article?.tags.map((tag, index) => (
                   <li className="tag-default tag-pill tag-outline" key={index}>
                     {tag.name}
                   </li>
-                ))}
+                ))} */}
               </ul>
             </Link>
           </div>
